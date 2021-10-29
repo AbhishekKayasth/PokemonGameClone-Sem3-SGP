@@ -7,13 +7,11 @@ public class NPCController : MonoBehaviour, Interactable
     [SerializeField] Dialogue dialogue;
     [SerializeField] List<Vector2> movementPattern;
     [SerializeField] float timeBetweenPattern;
-
     NPCState state;
-
     float idleTimer = 0f;
     int currentPattern = 0;
-    Character character;
 
+    Character character;
     private void Awake() 
     {
         character = GetComponent<Character>();
@@ -24,14 +22,13 @@ public class NPCController : MonoBehaviour, Interactable
 
         if (state == NPCState.Idle)
         {
-            state = NPCState.Dialogue;
-            character.LookTowards(initiator.position);
+        state = NPCState.Dialogue;
+        character.LookTowards(initiator.position);
         
-            StartCoroutine(DialogueManager.Instance.ShowDialogue(dialogue, () => 
-            {
-                idleTimer = 0f;
-                state = NPCState.Idle;
-            }));
+        StartCoroutine(DialogueManager.Instance.ShowDialogue(dialogue, () => {
+            idleTimer = 0f;
+            state = NPCState.Idle;
+        }));
         }
     }
 
@@ -62,8 +59,9 @@ public class NPCController : MonoBehaviour, Interactable
             currentPattern = (currentPattern + 1) % movementPattern.Count;
 
         state = NPCState.Idle;
+
     }
 
 }
 
-public  enum NPCState { Idle, Walking, Dialogue }
+public  enum NPCState { Idle, Walking,Dialogue }
