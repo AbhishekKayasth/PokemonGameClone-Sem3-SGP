@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Public Enum for game states
-public enum GameState { FreeRoam, Battle, Dialogue,Cutscene }
+public enum GameState { FreeRoam, Battle, Dialogue,Cutscene, Paused }
 
 public class GameController : MonoBehaviour
 {
@@ -13,6 +13,16 @@ public class GameController : MonoBehaviour
 	[SerializeField] Camera worldCamera;
 	// Local variables
 	GameState state;
+
+	GameState stateBeforePause;
+
+	//Getting information about current Scene
+	public SceneDetails CurrentScene {get; private set; }
+
+	//Getting information about previous state
+	public SceneDetails PrevScene {get; private set; }
+
+
 	public static GameController Instance { get; private set;}
 
 	private void Awake()
@@ -37,6 +47,21 @@ public class GameController : MonoBehaviour
 				state = GameState.FreeRoam;
 		};
 	}
+
+	//To solve the bug which will cause the player to move continouly in another portal in weird way
+	public void PauseGame(bool pause)
+	{
+		if(pause)
+		{
+			stateBeforePause = state;
+			state = GameState.Paused;
+		}
+		else
+		{
+			state = stateBeforePause;
+		}
+
+	}
 	
 	// This method makes game state into battle state
 	public void StartBattle()
@@ -46,7 +71,7 @@ public class GameController : MonoBehaviour
 		worldCamera.gameObject.SetActive(false);
 
 		var playerParty = playerController.GetComponent<PokemonParty>();
-		var wildPokemon = FindObjectOfType<MapArea>().GetComponent<MapArea>().GetRandomWildPokemon();
+		var wildPokemon = CurrentScene.GetComponent<MapArea>().GetRandomWildPokemon();
 
 		var wildPokemonCopy = new Pokemon (wildPokemon.Base, wildPokemon.Level);
 
@@ -102,5 +127,11 @@ public class GameController : MonoBehaviour
 		{
 			DialogueManager.Instance.HandleUpdate();
 		}
+	}
+
+	public void SetCurrentScene(SceneDetails currScene)
+	{
+		PrevScene = CurrentScene;
+		CurrentScene = currScene;
 	}
 }
