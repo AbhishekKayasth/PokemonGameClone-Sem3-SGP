@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] string name;
     [SerializeField] Sprite sprite;
 
-	const float offssetY = 0.3f;
+	
 
 	
 	private Vector2 input;
@@ -58,14 +58,14 @@ public class PlayerController : MonoBehaviour
 
 	private void OnMoveOver() 
 	{
-		var colliders = (Physics2D.OverlapCircleAll(transform.position - new Vector3(0, offssetY), 0.2f, GameLayers.i.TrigerrableLayers));
+		var colliders = (Physics2D.OverlapCircleAll(transform.position - new Vector3(0, character.OffsetY), 0.2f, GameLayers.i.TrigerrableLayers));
 
 		foreach(var collider in colliders)
 		{
 			var trigerrable = collider.GetComponent<IPlayerTriggerable>();
 			if(trigerrable != null)
 			{
-				character.Animator.IsMoving =false;
+				
 				trigerrable.OnPlayerTriggered(this);
 				break;
 			}
@@ -83,4 +83,6 @@ public class PlayerController : MonoBehaviour
      public Sprite Sprite {
         get => sprite;
     }
+
+	public Character Character => character;
 }
