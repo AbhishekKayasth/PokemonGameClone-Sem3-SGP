@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class MoveSelectionUI : MonoBehaviour
 {
     [SerializeField] List<Text> moveText;
-    [SerializeField] Color highlightedColor;
 
     int currentSelection = 0;
 
@@ -40,7 +39,7 @@ public class MoveSelectionUI : MonoBehaviour
         for(int i = 0; i < PokemonBase.MaxNumOfMoves + 1; i++)
         {
             if(i == selection)
-                moveText[i].color = highlightedColor;
+                moveText[i].color = GlobalSettings.i.HighlightedColor;
             else
                 moveText[i].color = Color.black;
         }

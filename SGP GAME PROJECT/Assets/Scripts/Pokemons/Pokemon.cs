@@ -72,6 +72,41 @@ public class Pokemon
         VolatileStatus = null;
     }
 
+    public PokemonSaveData GetSaveData()
+    {
+        var saveData = new PokemonSaveData()
+        {
+            name = Base.Name,
+            hp = HP,
+            level = Level,
+            exp = Exp,
+            statusId = Status?.Id,
+            moves = Moves.Select(m => m.GetSaveData()).ToList()
+        };
+
+        return saveData;
+    }
+
+    public Pokemon(PokemonSaveData saveData)
+    {
+        _base = PokemonDB.GetPokemonByName(saveData.name);
+        HP = saveData.hp;
+        level = saveData.level;
+        Exp = saveData.exp;
+
+        if(saveData.statusId != null)
+            Status = ConditionsDB.Conditions[saveData.statusId.Value];
+        else
+            Status = null;
+
+        Moves = saveData.moves.Select(s => new Move(s)).ToList();
+        
+        CalculateStats();
+        StatusChanges = new Queue<string>();
+        ResetStatBoost();
+        VolatileStatus = null;
+    }
+
     void CalculateStats()
     {
         Stats = new Dictionary<Stat, int>();
@@ -95,7 +130,6 @@ public class Pokemon
             {Stat.Speed , 0},
             {Stat.Accuracy , 0},
             {Stat.Evasion , 0},
-
         };
     }
 
@@ -289,4 +323,15 @@ public class DamageDetails
     public bool Fainted { get; set; }
     public float Critical { get; set; }
     public float TypeEffectiveness { get; set; }
+}
+
+[System.Serializable]
+public class PokemonSaveData
+{
+	public string name;
+	public int hp;
+	public int level;
+	public int exp;
+	public ConditionID? statusId;
+    public List<MoveSaveData> moves; 
 }

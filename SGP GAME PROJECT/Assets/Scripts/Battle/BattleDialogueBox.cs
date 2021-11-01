@@ -13,7 +13,6 @@ public class BattleDialogueBox : MonoBehaviour
 
 	// Text effect variables
 	[SerializeField] int letterPerSecond;
-	[SerializeField] Color highlightedColor;
 	// Referance variables for text
 	[SerializeField] Text dialogueText;
 	[SerializeField] Text ppText;
@@ -30,6 +29,13 @@ public class BattleDialogueBox : MonoBehaviour
 	// Referance variables for text list of actions and moves
 	[SerializeField] List<Text> actionTexts;
 	[SerializeField] List<Text> moveTexts;
+
+	Color highlightedColor;
+
+	private void Start()
+	{
+		highlightedColor = GlobalSettings.i.HighlightedColor;
+	}
 
 	// To display dialogueText
 	public void SetDialogue(string dialogue)
