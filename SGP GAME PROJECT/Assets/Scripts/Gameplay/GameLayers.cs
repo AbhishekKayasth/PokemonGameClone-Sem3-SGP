@@ -8,17 +8,18 @@ using UnityEngine;
 public class GameLayers : MonoBehaviour
 {
     [SerializeField] LayerMask solidObjectsLayer;
-	[SerializeField] LayerMask interactableLayer;
-	[SerializeField] LayerMask grassLayer;
+    [SerializeField] LayerMask interactableLayer;
+    [SerializeField] LayerMask grassLayer;
     [SerializeField] LayerMask playerLayer;
     [SerializeField] LayerMask fovLayer;
-    [SerializeField] LayerMask portalLayer;
-
+    [SerializeField] LayerMask portalLayer; 
 public static GameLayers i { get; set;}
     private void Awake()
     {
         i = this;
     }
+    
+    // All Game Layers Declaration  
     public LayerMask SolidLayer
     {
         get => solidObjectsLayer;
