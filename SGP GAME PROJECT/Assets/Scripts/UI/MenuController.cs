@@ -23,7 +23,7 @@ public class MenuController : MonoBehaviour
     {
         menuItems = menu.GetComponentsInChildren<Text>().ToList();
     }
-    // For Open Menu
+    // For Game Menu
     public void OpenMenu()
     {
         menu.SetActive(true);
