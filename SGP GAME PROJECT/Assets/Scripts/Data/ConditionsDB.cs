@@ -23,6 +23,7 @@ public class ConditionsDB
    public static Dictionary<ConditionID, Condition> Conditions { get; set; } = new Dictionary<ConditionID, Condition>() 
    {
        {
+	   // Poison Damage And Dialogues
            ConditionID.psn,
            new Condition()
            {
@@ -36,6 +37,7 @@ public class ConditionsDB
            }
        },
        {
+	   // Burn Damage And Dialogues
            ConditionID.brn,
            new Condition()
            {
@@ -49,6 +51,7 @@ public class ConditionsDB
            }
        },
        {
+	   // Paralysed Damage And Dialogues
            ConditionID.par,
            new Condition()
            {
@@ -66,6 +69,7 @@ public class ConditionsDB
            }
        },
        {
+	   // Freeze Damage And Dialogues
            ConditionID.frz,
            new Condition()
            {
@@ -84,6 +88,7 @@ public class ConditionsDB
            }
        },
         {
+	   // Sleep Damage And Dialogue
            ConditionID.slp,
            new Condition()
            {
@@ -150,6 +155,7 @@ public class ConditionsDB
            }
        }
    }; 
+   //For Different Condition StatusBonus
    public static float GetStatusBonus(Condition condition) 
    {
        if (condition == null)
