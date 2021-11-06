@@ -93,7 +93,7 @@ public class Pokemon
     {
         HP += hpToHeal;
     }
-
+    // Save Pokemon Data
     public PokemonSaveData GetSaveData()
     {
         var saveData = new PokemonSaveData()
@@ -128,7 +128,7 @@ public class Pokemon
         ResetStatBoost();
         VolatileStatus = null;
     }
-
+    // Calculate Pokemons Skills Data
     void CalculateStats()
     {
         Stats = new Dictionary<Stat, int>();
@@ -140,7 +140,7 @@ public class Pokemon
 
         MaxHp = Mathf.FloorToInt((Base.MaxHp * Level) / 100f) + 10 + Level;
     }
-
+    // Rest the pokemons data
     void ResetStatBoost()
     {
         StatBoosts = new Dictionary<Stat, int>()
@@ -170,7 +170,7 @@ public class Pokemon
 
         return statVal;
     }
-
+    // For Apply Boost
     public void ApplyBoosts(List<StatBoost> statBoosts)
     {
         foreach (var statBoost in statBoosts)
@@ -188,7 +188,7 @@ public class Pokemon
             Debug.Log($"{Base.Name}'s {stat} has been boosted to {StatBoosts[stat]}");
         }
     }
-
+    // Check For Pokemon Levels Up
     public bool CheckForLevelUp()
     {
         if(Exp > Base.GetExpForLevel(level + 1))
@@ -199,7 +199,7 @@ public class Pokemon
 
         return false;
     }
-
+    // Learn New LearnableMove
     public LearnableMove GetLearnableMoveAtCurrentLevel()
     {
         return Base.LearnableMoves.Where(x => x.Level == level).FirstOrDefault();
@@ -236,7 +236,7 @@ public class Pokemon
     public int MaxHp {
         get; private set;
     }
-
+    // Claculation Of Damage 
     public DamageDetails TakeDamage(Move move, Pokemon attacker)
     {
         float critical = 1f;
@@ -264,7 +264,7 @@ public class Pokemon
 
         return damageDetails;
     }
-
+    // After Damage Update HP
     public void UpdateHP(int damage )
     {
         HP = Mathf.Clamp(HP - damage , 0 , MaxHp);
@@ -332,14 +332,14 @@ public class Pokemon
         VolatileStatus?.OnAfterTurn?.Invoke(this);
     }
 
-
+    // After Battle Over
     public void OnBattleOver()
     {
         VolatileStatus = null;
         ResetStatBoost();
     }
 }
-
+// Damage Details after Damage Calcuation
 public class DamageDetails
 {
     public bool Fainted { get; set; }
