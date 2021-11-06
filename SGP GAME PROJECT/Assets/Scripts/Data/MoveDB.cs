@@ -8,7 +8,7 @@ using UnityEngine;
 public class MoveDB : MonoBehaviour
 {
     static Dictionary<string, MoveBase> moves;
-    // Moves Initiator
+    // New Moves Initiator
     public static void Init()
     {
         moves = new Dictionary<string, MoveBase>();
