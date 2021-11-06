@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+// For Diaogues
 public class Dialogue 
 {
     [SerializeField] List<string> lines;
