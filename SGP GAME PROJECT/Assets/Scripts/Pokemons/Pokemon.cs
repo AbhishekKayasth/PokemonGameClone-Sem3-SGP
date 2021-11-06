@@ -1,3 +1,6 @@
+/*
+    @author : SamirAli Mukhi
+*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -47,7 +50,6 @@ public class Pokemon
     //To change the status of pokemon everytime 
     public event System.Action OnStatusChanged;
 
-
     public void Init()
     {
         //generate moves
@@ -70,6 +72,26 @@ public class Pokemon
         ResetStatBoost();
         Status = null;
         VolatileStatus = null;
+    }
+
+    public void HealPokemon()
+    {
+        // Remove statuses, recover changes and reset stats
+        ResetStatBoost();
+        HPRestore(MaxHp);
+        StatusHeal();        
+        // reset move pp
+        Moves.ForEach(m => m.RestorePP(m.Base.PP));
+    }
+
+    public void StatusHeal()
+    {
+        Status = null;
+    }
+
+    public void HPRestore(int hpToHeal)
+    {
+        HP += hpToHeal;
     }
 
     public PokemonSaveData GetSaveData()

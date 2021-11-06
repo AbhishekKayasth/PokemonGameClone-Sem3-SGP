@@ -1,6 +1,7 @@
-﻿/*
-	Module name BattleDialogueBox
+/*
+	Module name - BattleDialogueBox
 	Module creation date - 03-Sep-2021
+	@author - Abhishek Kayasth
 */
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using UnityEngine.UI;
 
 public class BattleHud : MonoBehaviour
 {
+	[Header("References for HUD elements")]
 	// referance variables
 	[SerializeField] Text nameText;
 	[SerializeField] Text levelText;
@@ -17,17 +19,18 @@ public class BattleHud : MonoBehaviour
 	[SerializeField] HPBar hpBar;
 	[SerializeField] GameObject expBar;
 
-	//To set the color of the text based on the status
-	[SerializeField] Color psnColor;//Poison status
-	[SerializeField] Color brnColor;//Burn status
-	[SerializeField] Color slpColor;//Sleep status
-	[SerializeField] Color parColor;//Paralysed status
-	[SerializeField] Color frzColor;//Freeze status
+	[Header("Status text color")]
+	// For status text color
+	[SerializeField] Color psnColor; // Poison status
+	[SerializeField] Color brnColor; // Burn status
+	[SerializeField] Color slpColor; // Sleep status
+	[SerializeField] Color parColor; // Paralysed status
+	[SerializeField] Color frzColor; // Freeze status
 
-	// cache variable
+	// cache variables
 	Pokemon _pokemon;
 
-	//Dictionary is made to prevent the writing of more if else conditions which improves the visibility of code
+	// To keep track of status and appropriate color
 	Dictionary<ConditionID , Color> statusColors;
 
 	// Set data of given Pokemon on HUD UI elements
@@ -39,7 +42,6 @@ public class BattleHud : MonoBehaviour
 		hpBar.SetHP((float)pokemon.HP / pokemon.MaxHp);
 		SetExp();
 
-		//Sets the color based on the condition
 		statusColors = new Dictionary<ConditionID, Color>()
 		{
 			{ConditionID.psn , psnColor},
@@ -48,11 +50,12 @@ public class BattleHud : MonoBehaviour
 			{ConditionID.par , parColor},
 			{ConditionID.frz , frzColor},
 		};
-
 		SetStatusText();
+		
 		_pokemon.OnStatusChanged += SetStatusText;
 	}
 
+	// For setting text of the status effect
 	void SetStatusText()
 	{
 		if (_pokemon.Status == null)
@@ -66,11 +69,13 @@ public class BattleHud : MonoBehaviour
 		}
 	}
 
+	// For setting level text
 	public void SetLevel()
 	{
 		levelText.text = "Lvl " + _pokemon.Level;
 	}
 
+	// For setting EXP
 	public void SetExp()
 	{
 		if(expBar == null) return;
@@ -79,6 +84,7 @@ public class BattleHud : MonoBehaviour
 		expBar.transform.localScale = new Vector3(normalizedExp, 1 , 1);
 	}
 
+	// Display EXP with animation
 	public IEnumerator SetExpSmooth(bool reset=false)
 	{
 		if(expBar == null) yield break;
@@ -90,6 +96,7 @@ public class BattleHud : MonoBehaviour
 		yield return expBar.transform.DOScaleX(normalizedExp, 1.5f).WaitForCompletion();
 	}
 
+	// It returns normalized EXP for exp bar Display
 	float GetNormalizedExp()
 	{
 		int currLevelExp = _pokemon.Base.GetExpForLevel(_pokemon.Level);

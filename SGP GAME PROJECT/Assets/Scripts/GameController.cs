@@ -1,4 +1,7 @@
-﻿using System;
+﻿/*
+    @author : Abhishek Kayasth
+*/
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,19 +16,24 @@ public class GameController : MonoBehaviour
 	[SerializeField] BattleSystem battleSystem;
 	[SerializeField] Camera worldCamera;
 	[SerializeField] PartyScreen partyScreen;
+	[SerializeField] Fader faderWhite;
+	[SerializeField] Fader faderBlack;
+	[SerializeField] float fadeDurationTrainer = .2f;
+	[SerializeField] float fadeDurationWild = .5f;
 	// Local variables
 	GameState state;
 
 	GameState stateBeforePause;
 
 	//Getting information about current Scene
-	public SceneDetails CurrentScene {get; private set; }
+	public SceneDetails CurrentScene { get; private set; }
 
 	//Getting information about previous state
 	public SceneDetails PrevScene {get; private set; }
 
 	MenuController menuController;
 	TrainerController trainer;
+	bool musicIsPlaying = false;
 
 	public static GameController Instance { get; private set;}
 
@@ -65,7 +73,13 @@ public class GameController : MonoBehaviour
 		};
 	}
 
-	//To solve the bug which will cause the player to move continouly in another portal in weird way
+	public void SetMusic()
+	{
+		musicIsPlaying = true;
+		AudioManager.i.PlayMusic(SoundLibrary.GetClipFromName(CurrentScene.BgMusicName), 1.5f);
+	}
+
+	// To solve the bug which will cause the player to move continouly in another portal in weird way
 	public void PauseGame(bool pause)
 	{
 		if(pause)
@@ -77,13 +91,15 @@ public class GameController : MonoBehaviour
 		{
 			state = stateBeforePause;
 		}
-
 	}
 	
 	// This method makes game state into battle state
-	public void StartBattle()
+	public IEnumerator StartBattle()
 	{
 		state = GameState.Battle;
+		yield return faderWhite.FadeIn(fadeDurationWild);
+		yield return new WaitForSeconds(1f);
+
 		battleSystem.gameObject.SetActive(true);
 		worldCamera.gameObject.SetActive(false);
 
@@ -93,24 +109,29 @@ public class GameController : MonoBehaviour
 		var wildPokemonCopy = new Pokemon (wildPokemon.Base, wildPokemon.Level);
 
 		battleSystem.StartBattle(playerParty, wildPokemonCopy);
+		yield return faderWhite.FadeOut(fadeDurationTrainer);	
 	}
 	
-	public void StartTrainerBattle(TrainerController trainer)
+	public IEnumerator StartTrainerBattle(TrainerController trainer)
 	{
 		state = GameState.Battle;
+		yield return faderBlack.FadeIn(fadeDurationTrainer);
+		yield return new WaitForSeconds(0.5f);
+
 		battleSystem.gameObject.SetActive(true);
 		worldCamera.gameObject.SetActive(false);
 
 		this.trainer = trainer;
 		var playerParty = playerController.GetComponent<PokemonParty>();
 		var trainerParty = trainer.GetComponent<PokemonParty>();
-
 		battleSystem.StartTrainerBattle(playerParty, trainerParty);
+		yield return faderBlack.FadeOut(fadeDurationTrainer);		
 	}
 
 	public void OnEnterTrainersView(TrainerController trainer)
 	{
 		state = GameState.Cutscene;
+		AudioManager.i.PlayMusic(SoundLibrary.GetClipFromName("Trainer appears (B)"), 0.5f);
 		StartCoroutine(trainer.TriggerTrainerBattle(playerController));
 	}
 
@@ -120,15 +141,22 @@ public class GameController : MonoBehaviour
 		if (trainer != null && won == true)
 		{
 			trainer.BattleLost();
-			trainer=null;
+			trainer = null;
 		}
 
 		state = GameState.FreeRoam;
 		battleSystem.gameObject.SetActive(false);
 		worldCamera.gameObject.SetActive(true);
+		AudioManager.i.PlayMusic(SoundLibrary.GetClipFromName(CurrentScene.BgMusicName));
 	}
+
 	private void Update()
 	{
+		if(!musicIsPlaying)
+		{
+			SetMusic();
+		}
+
 		// Check current state and handle updates according to it
 		if (state == GameState.FreeRoam)
 		{
@@ -173,6 +201,7 @@ public class GameController : MonoBehaviour
 	{
 		PrevScene = CurrentScene;
 		CurrentScene = currScene;
+		SetMusic();
 	}
 
 	void OnMenuSelected(int selectedItem)

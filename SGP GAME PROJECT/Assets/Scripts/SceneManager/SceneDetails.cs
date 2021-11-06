@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿/*
+    @author : Mitren Kadiwala
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,8 +11,11 @@ public class SceneDetails : MonoBehaviour
 {
 
     [SerializeField] List<SceneDetails> connectedScenes;
+    [SerializeField] string bgMusicName;
 
-    public bool IsLoaded{get; private set; }
+    public bool IsLoaded { get; private set; }
+    
+    public string BgMusicName => bgMusicName;
 
     List<SavableEntity> savableEntities;
 

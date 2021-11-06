@@ -1,6 +1,7 @@
 ﻿/*
-	Module name BattleDialogueBox
+	Module name - BattleUnit
 	Module creation date - 04-Sep-2021
+    @author - Abhishek Kayasth
 */
 using System.Collections;
 using System.Collections.Generic;
@@ -13,20 +14,16 @@ public class BattleUnit : MonoBehaviour
     [SerializeField] bool isPlayerUnit;
     [SerializeField] BattleHud hud;
 
-    public bool IsPlayerUnit {
-        get { return isPlayerUnit; }
-    }
-
-    public BattleHud Hud {
-        get { return hud; }
-    }
-
+    public bool IsPlayerUnit { get { return isPlayerUnit; } }
+    public BattleHud Hud { get { return hud; } }
     public Pokemon Pokemon { get; set; }
 
+    // cache variables
     Image image;
     Vector3 originalPos;
     Color originalColor;
 
+    // Called when scene is loaded (Before starting)
 	private void Awake()
 	{
         image = GetComponent<Image>();
@@ -34,6 +31,7 @@ public class BattleUnit : MonoBehaviour
         originalColor = image.color;
 	}
 
+    // Set up Pokemon image and HUD 
 	public void Setup(Pokemon pokemon)
     {
         Pokemon = pokemon;
@@ -43,30 +41,33 @@ public class BattleUnit : MonoBehaviour
         else
             image.sprite = Pokemon.Base.FrontSprite;
 
-            hud.gameObject.SetActive(true);
-
-        hud.SetData(pokemon);
-
+        // Reset the scale & color of image if it was changed before
         transform.localScale = new Vector3(1, 1, 1);
         image.color = originalColor;
 
-        PlayEnterAnimation();
+        StartCoroutine(PlayEnterAnimation());
     }
 
+    // Disables HUD 
     public void Clear()
     {
        hud.gameObject.SetActive(false);
     }
 
-    public void PlayEnterAnimation()
+    // Animations
+    public IEnumerator PlayEnterAnimation()
     {
         if (isPlayerUnit)
-            image.transform.localPosition = new Vector3(-500, originalPos.y);
+            image.transform.localPosition = new Vector3(-1500, originalPos.y);
         else
-            image.transform.localPosition = new Vector3(500, originalPos.y);
+            image.transform.localPosition = new Vector3(1500, originalPos.y);
 
-        image.transform.DOLocalMoveX(originalPos.x, 1f);
+        yield return image.transform.DOLocalMoveX(originalPos.x, 2f).WaitForCompletion();
+
+        hud.gameObject.SetActive(true);
+        hud.SetData(Pokemon);
     }
+
     public void PlayAttackAnimation()
     {
         var sequence = DOTween.Sequence();
@@ -77,12 +78,14 @@ public class BattleUnit : MonoBehaviour
 
         sequence.Append(image.transform.DOLocalMoveX(originalPos.x, 0.25f));
     }
+
     public void PlayHitAnimation()
     {
         var sequence = DOTween.Sequence();
         sequence.Append(image.DOColor(Color.gray, 0.1f));
         sequence.Append(image.DOColor(originalColor, 0.2f));
     }
+
     public void PlayFaintAnimation()
     {
         var sequence = DOTween.Sequence();
@@ -99,7 +102,7 @@ public class BattleUnit : MonoBehaviour
         yield return sequence.WaitForCompletion();
     }
 
-     public IEnumerator PlayerBreakOutAnimation()
+    public IEnumerator PlayerBreakOutAnimation()
     {
         var sequence = DOTween.Sequence();
         sequence.Append(image.DOFade(1, 0.5f));

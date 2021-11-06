@@ -141,10 +141,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8320182761155204217, guid: e9fc3b672f663244cabdbb33ffa0fb83, type: 3}
-      propertyPath: partyScreen
-      value: 
-      objectReference: {fileID: 430156119}
+    - target: {fileID: 8320182761732873937, guid: e9fc3b672f663244cabdbb33ffa0fb83, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8320182761894109003, guid: e9fc3b672f663244cabdbb33ffa0fb83, type: 3}
       propertyPath: m_Name
       value: Essential objects
@@ -193,27 +193,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8320182762723684489, guid: e9fc3b672f663244cabdbb33ffa0fb83, type: 3}
-      propertyPath: pokemons.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320182762723684489, guid: e9fc3b672f663244cabdbb33ffa0fb83, type: 3}
-      propertyPath: pokemons.Array.data[0].level
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9fc3b672f663244cabdbb33ffa0fb83, type: 3}
---- !u!114 &430156119 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5987249293518373039, guid: e9fc3b672f663244cabdbb33ffa0fb83, type: 3}
-  m_PrefabInstance: {fileID: 430156118}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6faa3a92679ab342a479be885d3da95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &433627398 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6890310259595090339, guid: b00598c34e6b995469c65c48e1a35cfd, type: 3}
@@ -522,6 +503,10 @@ PrefabInstance:
       propertyPath: connectedScenes.Array.data[1]
       value: 
       objectReference: {fileID: 1567584911}
+    - target: {fileID: 6890310259595090334, guid: b00598c34e6b995469c65c48e1a35cfd, type: 3}
+      propertyPath: bgMusicName
+      value: Road to Viridian
+      objectReference: {fileID: 0}
     - target: {fileID: 6890310259595090337, guid: b00598c34e6b995469c65c48e1a35cfd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -599,6 +584,10 @@ PrefabInstance:
       propertyPath: connectedScenes.Array.data[1]
       value: 
       objectReference: {fileID: 238586922}
+    - target: {fileID: 6890310259595090334, guid: b00598c34e6b995469c65c48e1a35cfd, type: 3}
+      propertyPath: bgMusicName
+      value: Pallet Town
+      objectReference: {fileID: 0}
     - target: {fileID: 6890310259595090336, guid: b00598c34e6b995469c65c48e1a35cfd, type: 3}
       propertyPath: m_Offset.x
       value: 2.8558273

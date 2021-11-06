@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+	Module name - PartyScreen
+	Module creation date - 02-Oct-2021
+    @author -Mitren Kadiwala
+*/
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,12 +25,13 @@ public class PartyScreen : MonoBehaviour
     /// </summary>
     public BattleState? CalledFrom { get; set; }
 
-    //For initializing
+    // Initializes members
     public void Init()
     {
         memberSlots = GetComponentsInChildren<PartyMemberUI>(true);
     }
 
+    // Sets Pokemon data in memberSlots
     public void SetPartyData(List<Pokemon> pokemons)
     {
         this.pokemons = pokemons;
@@ -45,6 +51,7 @@ public class PartyScreen : MonoBehaviour
         messageText.text = "Choose a Pokemon";
     }
 
+    // Handles UI updation
     public void HandleUpdate(Action onSelected, Action onBack)
 	{
         int prevSelection = selection;
@@ -73,6 +80,7 @@ public class PartyScreen : MonoBehaviour
 		}
 	}
 
+    // Updates UI selection
     public void UpdateMemberSelection(int selectedMember)
     {
         for(int i = 0; i < pokemons.Count; i++)
@@ -84,6 +92,7 @@ public class PartyScreen : MonoBehaviour
         }
     }
 
+    // Sets text in message box
     public void SetMessageText(string message)
     {
         messageText.text = message;

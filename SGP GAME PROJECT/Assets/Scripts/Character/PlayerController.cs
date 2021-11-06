@@ -1,4 +1,7 @@
-﻿using System;
+﻿/*
+	@author - SamirAli Mukhi
+*/
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,18 +9,24 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour, ISavable
 {
+	// Parameters
 	[SerializeField] string name;
     [SerializeField] Sprite sprite;
 	
 	private Vector2 input;
-
 	private Character character;
+
+	public string Name { get => name; }
+	public Sprite Sprite { get => sprite; }
+	public Character Character => character;
 	
+	// Called when scene is loaded
 	private void Awake()
 	{
 		character = GetComponent<Character>();
 	}
 
+	// Handles input and updates
 	public void HandleUpdate()
 	{
 		if (!character.IsMoving)
@@ -27,14 +36,16 @@ public class PlayerController : MonoBehaviour, ISavable
 
 			//Remove diagonal movement
 			if (input.x != 0) input.y = 0;
+			// If there is non zero input move player 
 			if (input != Vector2.zero)
 			{
-				StartCoroutine(character.Move(input,OnMoveOver));
+				StartCoroutine(character.Move(input, OnMoveOver));
 			}
 		}
 
 		character.HandleUpdate();
 
+		// Interact if there is anything interactable 
 		if (Input.GetKeyDown(KeyCode.Z))
 		{
 			Interact();
@@ -47,7 +58,6 @@ public class PlayerController : MonoBehaviour, ISavable
 		var facingDir = new Vector3(character.Animator.MoveX, character.Animator.MoveY);
 		var interactPos = transform.position + facingDir;
 
-		// Debug.DrawLine(transform.position, interactPos, Color.green, 0.5f);
 		var collider = Physics2D.OverlapCircle(interactPos , 0.3f , GameLayers.i.InteractableLayer);
 		if (collider != null)
 		{
@@ -55,7 +65,7 @@ public class PlayerController : MonoBehaviour, ISavable
 		}
 	}
 
-
+	// If there is an event trigger (Trainer) triggers it
 	private void OnMoveOver() 
 	{
 		var colliders = (Physics2D.OverlapCircleAll(transform.position - new Vector3(0, character.OffsetY), 0.2f, GameLayers.i.TrigerrableLayers));
@@ -65,13 +75,13 @@ public class PlayerController : MonoBehaviour, ISavable
 			var trigerrable = collider.GetComponent<IPlayerTriggerable>();
 			if(trigerrable != null)
 			{
-				
 				trigerrable.OnPlayerTriggered(this);
 				break;
 			}
 		}
 	}
 
+	// Saves current state 
     public object CaptureState()
     {
 		var saveData = new PlayerSaveData()
@@ -83,6 +93,7 @@ public class PlayerController : MonoBehaviour, ISavable
 		return saveData;
     }
 
+	// Loads save data
     public void RestoreState(object state)
     {
 		var saveData = (PlayerSaveData)state;
@@ -93,18 +104,9 @@ public class PlayerController : MonoBehaviour, ISavable
 		// Restore Party
 		GetComponent<PokemonParty>().Pokemons = saveData.pokemons.Select( s => new Pokemon(s)).ToList();
     }
-
-    public string Name {
-        get => name;
-    }
-	
-	public Sprite Sprite {
-        get => sprite;
-    }
-
-	public Character Character => character;
 }
 
+// This class defines properties for saving
 [Serializable]
 public class PlayerSaveData 
 {

@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+	Module name - MoveSelectionUI
+	Module creation date - 25-Oct-2021
+    @author - Abhishek Kayasth
+*/
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +15,7 @@ public class MoveSelectionUI : MonoBehaviour
 
     int currentSelection = 0;
 
+    // Sets current available moves and new move names in UI
     public void SetMoveData(List<MoveBase> currentMoves, MoveBase newMove)
     {
         for(int i = 0;  i < currentMoves.Count; i++)
@@ -20,6 +26,7 @@ public class MoveSelectionUI : MonoBehaviour
         moveText[currentMoves.Count].text = newMove.Name;
     }
 
+    // Handles Move selection input 
     public void HandleMoveSelection(Action<int> onSelected)
     {
 		if(Input.GetKeyDown(KeyCode.DownArrow))
@@ -34,6 +41,7 @@ public class MoveSelectionUI : MonoBehaviour
 			onSelected.Invoke(currentSelection);
     }
 
+    // Handles Move selection UI updates
     public void UpdateMoveSelection(int selection)
     {
         for(int i = 0; i < PokemonBase.MaxNumOfMoves + 1; i++)

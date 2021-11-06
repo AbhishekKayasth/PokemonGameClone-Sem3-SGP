@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/*
+	Module name - PartyMemberUI
+	Module creation date - 01-Oct-2021
+	@author -Mitren Kadiwala
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +27,7 @@ public class PartyMemberUI : MonoBehaviour
 		hpBar.SetHP((float)pokemon.HP / pokemon.MaxHp);
 	}
 
+	// Highlights Member UI if input is true
 	public void SetSelected(bool selected)
 	{
 		if(selected)

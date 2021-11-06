@@ -1,9 +1,13 @@
-﻿using System.Collections;
+﻿/*
+	@author - Taufik Mansuri
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TrainerController : MonoBehaviour, Interactable, ISavable
 {
+    // properties
     [SerializeField] string name;
     [SerializeField] Sprite sprite;
     [SerializeField] Dialogue dialogue;
@@ -11,24 +15,32 @@ public class TrainerController : MonoBehaviour, Interactable, ISavable
     [SerializeField] GameObject exclamation;
     [SerializeField] GameObject fov;
 
-    //State
+    // local variables
     bool battleLost = false;
-
     Character character;
+
+    public string Name { get => name; }
+    public Sprite Sprite { get => sprite; }
+
+    // Called when scene is loaded
     private void Awake()
     {
         character = GetComponent<Character>();
     }
 
+    // Called when gameObject is initialized
     private void Start()
     {
         SetFovRotation(character.Animator.DefaultDirection);
     }
 
-    private void UPdate()
-        {   
-            character.HandleUpdate();
-        }
+    // Called each frame
+    private void Update()
+    {   
+        character.HandleUpdate();
+    }
+    
+    // Interaction
     public void Interact (Transform initiator)
     {
         character.LookTowards(initiator.position);
@@ -36,20 +48,23 @@ public class TrainerController : MonoBehaviour, Interactable, ISavable
         if (!battleLost)
         {
             StartCoroutine(DialogueManager.Instance.ShowDialogue( dialogue, () =>
-        {
-            GameController.Instance.StartTrainerBattle(this);
-        }));
+            {
+                AudioManager.i.PlayMusic(SoundLibrary.GetClipFromName("Trainer Battle"));
+                StartCoroutine(GameController.Instance.StartTrainerBattle(this));
+            }));
         }
         else
         {
             StartCoroutine(DialogueManager.Instance.ShowDialogue(dialogAfterBattle));
         }
     }
+
+    // Trainer Battle trigger
     public IEnumerator TriggerTrainerBattle(PlayerController player)
     {
         //Show Exclamation
         exclamation.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(2f);
         exclamation.SetActive(false);
 
         //Walk toward The Player
@@ -62,16 +77,19 @@ public class TrainerController : MonoBehaviour, Interactable, ISavable
         //Show dialogue
         StartCoroutine(DialogueManager.Instance.ShowDialogue( dialogue, () =>
         {
-            GameController.Instance.StartTrainerBattle(this);
+            AudioManager.i.PlayMusic(SoundLibrary.GetClipFromName("Trainer Battle"), 1.5f);
+            StartCoroutine(GameController.Instance.StartTrainerBattle(this));
         }));
     }
 
+    // When trainer loses a battle
     public void BattleLost()
     {
         battleLost = true;
         fov.gameObject.SetActive(false);
     }
 
+    // Rotate FOV in a direction
     public void SetFovRotation(FacingDirection dir)
     {
         float angle = 0f;
@@ -85,23 +103,17 @@ public class TrainerController : MonoBehaviour, Interactable, ISavable
         fov.transform.eulerAngles = new Vector3(0f, 0f, angle);
     }
 
+    // For saving
     public object CaptureState()
     {
         return battleLost;
     }
 
+    // For loading 
     public void RestoreState(object state)
     {
         battleLost = (bool)state;
         if(battleLost)
             fov.gameObject.SetActive(false);
-    }
-
-    public string Name {
-        get => name;
-    }
-
-    public Sprite Sprite {
-        get => sprite;
     }
 }

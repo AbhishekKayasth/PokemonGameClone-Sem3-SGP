@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿/*
+    @author : SamirAli Mukhi
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -81,13 +84,11 @@ public class MoveEffects
         get { return boosts; }
     }
 
-    
-
     public ConditionID Status{
         get{return status; }
     }
 
-     public ConditionID VolatileStatus{
+    public ConditionID VolatileStatus{
         get{return volatilestatus; }
     }
 }
@@ -106,8 +107,6 @@ public class SecondaryEffects : MoveEffects
     public MoveTarget Target{
         get{ return target; }
     }
-        
-
 }
 
 [System.Serializable]

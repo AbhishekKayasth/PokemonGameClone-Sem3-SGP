@@ -1,6 +1,7 @@
 ﻿/*
-	Module name BattleDialogueBox
+	Module name - BattleDialogueBox
 	Module creation date - 04-Sep-2021
+	@author - Abhishek Kayasth
 */
 using System.Collections;
 using System.Collections.Generic;
@@ -9,29 +10,36 @@ using UnityEngine.UI;
 
 public class BattleDialogueBox : MonoBehaviour
 {
-	// SerializedField var are visible in Unity Editor
-
+	/// SerializedField var are visible in Unity Editor
+	[Header("Text Writing Speed")]
 	// Text effect variables
 	[SerializeField] int letterPerSecond;
+
+	[Header("Text Referances")]
 	// Referance variables for text
 	[SerializeField] Text dialogueText;
 	[SerializeField] Text ppText;
 	[SerializeField] Text typeText;
-
 	[SerializeField] Text yesText;
 	[SerializeField] Text noText;
+
+	[Header("Panel Referances")]
 	// Referance variables for panels
 	[SerializeField] GameObject actionSelector;
 	[SerializeField] GameObject moveSelector;
 	[SerializeField] GameObject moveDetails;
 	[SerializeField] GameObject choiceBox;
+	[SerializeField] GameObject dialogueBoxBG;
+	[SerializeField] GameObject actionPanelBG;
 
+	[Header("Text field Lists")]
 	// Referance variables for text list of actions and moves
 	[SerializeField] List<Text> actionTexts;
 	[SerializeField] List<Text> moveTexts;
 
 	Color highlightedColor;
 
+	// Called when initialized
 	private void Start()
 	{
 		highlightedColor = GlobalSettings.i.HighlightedColor;
@@ -42,6 +50,7 @@ public class BattleDialogueBox : MonoBehaviour
 	{
 		dialogueText.text = dialogue;
 	}
+
 	// To display dialogueText with animation
 	public IEnumerator TypeDialogue(string dialogue)
 	{
@@ -60,12 +69,18 @@ public class BattleDialogueBox : MonoBehaviour
 	{
 		dialogueText.enabled = enabled;
 	}
+
 	public void EnableActionSelector(bool enabled)
 	{
+		dialogueBoxBG.SetActive(enabled);
+		actionPanelBG.SetActive(enabled);
 		actionSelector.SetActive(enabled);
 	}
+
 	public void EnableMoveSelector(bool enabled)
 	{
+		dialogueBoxBG.SetActive(enabled);
+		actionPanelBG.SetActive(enabled);
 		moveSelector.SetActive(enabled);
 		moveDetails.SetActive(enabled);
 	}
@@ -86,6 +101,7 @@ public class BattleDialogueBox : MonoBehaviour
 				actionTexts[i].color = Color.black;
 		}
 	}
+
 	// Update move panel texts according to player input
 	public void UpdateMoveSelection(int selectedMove, Move move)
 	{
@@ -107,18 +123,8 @@ public class BattleDialogueBox : MonoBehaviour
 		else 
 			ppText.color = Color.black;
 	}
-	// Set move names available from player unit
-	public void SetMoveNames(List<Move> moves)
-	{
-		for (int i = 0; i < moveTexts.Count; ++i)
-		{
-			if (i < moves.Count)
-				moveTexts[i].text = moves[i].Base.Name;
-			else
-				moveTexts[i].text = "-";
-		}
-	}
 
+	// Updates Choice Box according input bool
 	public void UpdateChoiceBox(bool yesSelected)
 	{
 		if (yesSelected)
@@ -130,6 +136,18 @@ public class BattleDialogueBox : MonoBehaviour
 		{
 			yesText.color = Color.black;
 			noText.color = highlightedColor;
+		}
+	}
+
+	// Set move names available from player unit
+	public void SetMoveNames(List<Move> moves)
+	{
+		for (int i = 0; i < moveTexts.Count; ++i)
+		{
+			if (i < moves.Count)
+				moveTexts[i].text = moves[i].Base.Name;
+			else
+				moveTexts[i].text = "-";
 		}
 	}
 }

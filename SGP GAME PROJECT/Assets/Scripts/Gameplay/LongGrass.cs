@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿/*
+	@author - Taufik Mansuri
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +12,8 @@ public class LongGrass : MonoBehaviour, IPlayerTriggerable
        if (UnityEngine.Random.Range(1, 101) <= 10)
 			{
                 player.Character.Animator.IsMoving =false;
-				GameController.Instance.StartBattle();
+                AudioManager.i.PlayMusic(SoundLibrary.GetClipFromName("Battle (Wild)"), 1.5f);
+				StartCoroutine(GameController.Instance.StartBattle());
 			}
     }
 }
