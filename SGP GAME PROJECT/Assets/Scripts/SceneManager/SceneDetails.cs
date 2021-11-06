@@ -69,7 +69,7 @@ public class SceneDetails : MonoBehaviour
             };
         }
     }
-
+    //Dynamically Unloads different Scene 
     public void UnloadScene()
     {
         if(IsLoaded)
