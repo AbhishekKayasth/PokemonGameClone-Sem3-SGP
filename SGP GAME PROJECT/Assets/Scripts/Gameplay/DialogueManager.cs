@@ -29,7 +29,7 @@ public class DialogueManager : MonoBehaviour
     bool isTyping;
 
     public bool  IsShowing { get; private set;}    
-
+    //Conversations Dialogue
     public IEnumerator ShowDialogue(Dialogue dialogue, Action onFinished=null)
     {
         //Waits for 1 frame to prevent wrong outputs
@@ -62,7 +62,7 @@ public class DialogueManager : MonoBehaviour
             }
         }
     }
-
+    // Enter Conversation Dialogue
     public IEnumerator TypeDialogue(string line)
     {
         isTyping = true;

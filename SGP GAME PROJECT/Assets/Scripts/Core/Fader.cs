@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-//Fades off the screen and gives animation kind of thing while changig the scenes
+//Fades off the screen and gives animation kind of thing while changing the scenes
 public class Fader : MonoBehaviour
 {
     Image image;

@@ -8,7 +8,7 @@ using UnityEngine;
 public class MoveDB : MonoBehaviour
 {
     static Dictionary<string, MoveBase> moves;
-
+    // New Moves Initiator
     public static void Init()
     {
         moves = new Dictionary<string, MoveBase>();
@@ -24,7 +24,7 @@ public class MoveDB : MonoBehaviour
             moves[move.Name] = move;
         }
     }
-
+    // Get Moves Check Move in Database
     public static MoveBase GetMoveByName(string name)
     {
         if(!moves.ContainsKey(name))

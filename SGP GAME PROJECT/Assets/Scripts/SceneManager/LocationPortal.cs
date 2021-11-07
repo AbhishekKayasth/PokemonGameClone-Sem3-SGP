@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-
 //Teleports the player to a different position without switching scenes(using additive scene) 
 public class LocationPortal : MonoBehaviour,IPlayerTriggerable
 {
@@ -33,18 +32,12 @@ public class LocationPortal : MonoBehaviour,IPlayerTriggerable
         GameController.Instance.PauseGame(true);
         //To fade the screen on scene switching
         yield return fader.FadeIn(0.5f);
-
-
         var destPortal = FindObjectsOfType<LocationPortal>().First(x => x != this && x.destinationPortal == this.destinationPortal);//To prevent this portal to cause problem while specifying the location of portal in other scen
         player.Character.SetPositionAndSnapToTile(destPortal.SpawnPoint.position);
 
         //To fade out the screen on scene loading
         yield return fader.FadeOut(0.5f);
-        GameController.Instance.PauseGame(false);
-
-
-        
+        GameController.Instance.PauseGame(false);      
     }
-
     public Transform SpawnPoint => spawnPoint;
 }

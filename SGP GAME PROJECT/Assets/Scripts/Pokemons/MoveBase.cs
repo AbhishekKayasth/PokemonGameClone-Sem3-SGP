@@ -24,7 +24,8 @@ public class MoveBase : ScriptableObject
     [SerializeField] MoveEffects effects;
     [SerializeField] List<SecondaryEffects> secondaries;
     [SerializeField] MoveTarget target;
-
+    
+    // Entering Details Of Pokemon
     public string Name {
         get {return name;}
     }

@@ -30,7 +30,7 @@ public class PokemonBase : ScriptableObject
     [SerializeField] List<LearnableMove> learnableMoves;
 
     public static int MaxNumOfMoves { get; set; } = 4;
-
+    // level explore Logic
     public int GetExpForLevel(int level)
     {
         if(growthRate == GrowthRate.Fast)
@@ -44,7 +44,7 @@ public class PokemonBase : ScriptableObject
 
         return -1;
     }
-
+    // Get Pokemon Data
     public string Name
     {
         get { return name; }
@@ -125,7 +125,7 @@ public class LearnableMove
     }
 }
 
-
+//Types Of Pokemon
 public enum PokemonType
 {
     None,
@@ -152,7 +152,7 @@ public enum GrowthRate
 {
     Fast, MediumFast
 }
-
+// Pokemon Stats
 public enum Stat
 {
     Attack,

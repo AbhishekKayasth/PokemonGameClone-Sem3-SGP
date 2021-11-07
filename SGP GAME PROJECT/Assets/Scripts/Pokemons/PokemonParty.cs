@@ -31,7 +31,7 @@ public class PokemonParty : MonoBehaviour
     {
         return pokemons.Where(x => x.HP > 0).FirstOrDefault();
     }
-
+    // Pokemons List In Player Party 
     public void AddPokemon(Pokemon newPokemon)
     {
         if (pokemons.Count < 6)

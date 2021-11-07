@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class LongGrass : MonoBehaviour, IPlayerTriggerable
 {
+     // Logic Of Encounter A Wild Pokemon In Long Grass
      public void OnPlayerTriggered(PlayerController player)
     {
        if (UnityEngine.Random.Range(1, 101) <= 10)

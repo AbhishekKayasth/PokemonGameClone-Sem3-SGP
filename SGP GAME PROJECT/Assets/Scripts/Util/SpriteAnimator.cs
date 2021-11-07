@@ -4,7 +4,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+// Using Sprite For Animation 
 public class SpriteAnimator 
 {
     SpriteRenderer spriteRenderer;

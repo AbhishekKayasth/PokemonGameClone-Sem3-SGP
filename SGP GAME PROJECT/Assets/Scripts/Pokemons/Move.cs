@@ -46,14 +46,14 @@ public class Move
 
         return moveAccuracy;		
     }
-
+    // Calculation of Restore PP
     public void RestorePP(int amount)
     {
         PP += amount;
         if(PP > Base.PP)
             PP = Base.PP;
     }
-
+    // FOR Save The Data
     public MoveSaveData GetSaveData()
     {
         var saveData = new MoveSaveData()

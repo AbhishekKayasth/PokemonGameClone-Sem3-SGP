@@ -8,7 +8,7 @@ using UnityEngine;
 public class PokemonDB : MonoBehaviour
 {
     static Dictionary<string, PokemonBase> pokemons;
-
+    // New Pokemon Initiator
     public static void Init()
     {
         pokemons = new Dictionary<string, PokemonBase>();
@@ -24,7 +24,7 @@ public class PokemonDB : MonoBehaviour
             pokemons[pokemon.Name] = pokemon;
         }
     }
-
+    // Get Pokemon Check In Database
     public static PokemonBase GetPokemonByName(string name)
     {
         if(!pokemons.ContainsKey(name))

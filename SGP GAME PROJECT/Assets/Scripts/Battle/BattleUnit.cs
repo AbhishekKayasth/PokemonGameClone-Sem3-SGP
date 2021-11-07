@@ -54,7 +54,7 @@ public class BattleUnit : MonoBehaviour
        hud.gameObject.SetActive(false);
     }
 
-    // Animations
+    // Player Walk Animations
     public IEnumerator PlayEnterAnimation()
     {
         if (isPlayerUnit)
@@ -67,7 +67,7 @@ public class BattleUnit : MonoBehaviour
         hud.gameObject.SetActive(true);
         hud.SetData(Pokemon);
     }
-
+    // Player Attack Animations
     public void PlayAttackAnimation()
     {
         var sequence = DOTween.Sequence();
@@ -78,21 +78,21 @@ public class BattleUnit : MonoBehaviour
 
         sequence.Append(image.transform.DOLocalMoveX(originalPos.x, 0.25f));
     }
-
+    // Player Hit Animations
     public void PlayHitAnimation()
     {
         var sequence = DOTween.Sequence();
         sequence.Append(image.DOColor(Color.gray, 0.1f));
         sequence.Append(image.DOColor(originalColor, 0.2f));
     }
-
+    // Player Faint Animations
     public void PlayFaintAnimation()
     {
         var sequence = DOTween.Sequence();
         sequence.Append(image.transform.DOLocalMoveY(originalPos.y - 150f, 0.5f));
         sequence.Join(image.DOFade(0, 0.5f));
     }
-
+    // Player Pokemon Capture Animations
     public IEnumerator PlayerCaptureAnimation()
     {
         var sequence = DOTween.Sequence();
@@ -101,7 +101,7 @@ public class BattleUnit : MonoBehaviour
         sequence.Join(transform.DOScale(new Vector3(0.3f, 0.3f, 1f),0.5f));
         yield return sequence.WaitForCompletion();
     }
-
+    // Player Pokeball BreakOut Animations
     public IEnumerator PlayerBreakOutAnimation()
     {
         var sequence = DOTween.Sequence();
